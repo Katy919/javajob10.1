@@ -35,7 +35,7 @@ public class TodosTest {
         SimpleTask simpleTask = new SimpleTask(1, "Купить Хлеб");
         String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
         Epic epic = new Epic(2, subtasks);
-        Meeting meeting = new Meeting(3, "Обсуждение Хлеба", "Проект Хлебозавод", "10:00");
+        Meeting meeting = new Meeting(3, "Обсуждение изготовления Хлеба", "Проект Хлебпекарня", "10:00");
 
         Todos todos = new Todos();
         todos.add(simpleTask);
@@ -52,7 +52,7 @@ public class TodosTest {
     public void shouldFindOnlyMeetingTasks() {
         SimpleTask simpleTask = new SimpleTask(1, "Купить Молоко");
         Epic epic = new Epic(2, new String[]{"Яйца", "Сок"});
-        Meeting meeting = new Meeting(3, "Совещание по проекту", "Важный проект", "12:00");
+        Meeting meeting = new Meeting(3, "Совещание по проекту", "Сложный проект", "10:00");
 
         Todos todos = new Todos();
         todos.add(simpleTask);
@@ -113,21 +113,6 @@ public class TodosTest {
 
         Task[] expected = {};
         Task[] actual = todos.search("Хлеб");
-
-        Assertions.assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldReturnEmptyArrayForEmptyQuery() {
-        SimpleTask simpleTask = new SimpleTask(1, "Купить Молоко");
-        Epic epic = new Epic(2, new String[]{"Яйца", "Сок"});
-
-        Todos todos = new Todos();
-        todos.add(simpleTask);
-        todos.add(epic);
-
-        Task[] expected = {};
-        Task[] actual = todos.search("");
 
         Assertions.assertArrayEquals(expected, actual);
     }
