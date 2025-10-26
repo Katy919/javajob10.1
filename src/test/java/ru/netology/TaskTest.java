@@ -34,6 +34,7 @@ public class TaskTest {
 
         Assertions.assertEquals(expected, actual);
     }
+
     @Test
     public void shouldMatchEpic() {
         String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
@@ -44,8 +45,9 @@ public class TaskTest {
 
         Assertions.assertEquals(expected, actual);
     }
+
     @Test
-    public void shouldNotMatchEpicWhenQueryNotFound() {
+    public void shouldNotMatchEpic() {
         String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
         Epic epic = new Epic(55, subtasks);
 
@@ -54,6 +56,7 @@ public class TaskTest {
 
         Assertions.assertEquals(expected, actual);
     }
+
     @Test
     public void shouldNotMatchEpicWhenQueryNoFound() {
         String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
@@ -64,6 +67,7 @@ public class TaskTest {
 
         Assertions.assertEquals(expected, actual);
     }
+
     @Test
     public void shouldMatchMeetingInTopic() {
         Meeting meeting = new Meeting(
@@ -78,8 +82,9 @@ public class TaskTest {
 
         Assertions.assertEquals(expected, actual);
     }
+
     @Test
-    public void shouldNotMatchMeetingInStart() {
+    public void shouldMatchMeetingInProject() {
         Meeting meeting = new Meeting(
                 555,
                 "Выкатка 3й версии приложения",
@@ -87,11 +92,12 @@ public class TaskTest {
                 "Во вторник после обеда"
         );
 
-        boolean expected = false;
-        boolean actual = meeting.matches("вторник");
+        boolean expected = true;
+        boolean actual = meeting.matches("НетоБанка");
 
         Assertions.assertEquals(expected, actual);
     }
+
     @Test
     public void shouldNotMatchMeetingWhenQueryNotFound() {
         Meeting meeting = new Meeting(
@@ -105,5 +111,48 @@ public class TaskTest {
         boolean actual = meeting.matches("понедельник");
 
         Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldGetSimpleTaskTitle() {
+        SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
+
+        int expectedId = 5;
+        String expectedTitle = "Позвонить родителям";
+
+        Assertions.assertEquals(expectedId, simpleTask.getId());
+        Assertions.assertEquals(expectedTitle, simpleTask.getTitle());
+    }
+
+    @Test
+    public void shouldGetEpicSubtasks() {
+        String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
+        Epic epic = new Epic(55, subtasks);
+
+        int expectedId = 55;
+        String[] expectedSubtasks = {"Молоко", "Яйца", "Хлеб"};
+
+        Assertions.assertEquals(expectedId, epic.getId());
+        Assertions.assertArrayEquals(expectedSubtasks, epic.getSubtasks());
+    }
+
+    @Test
+    public void shouldGetMeeting() {
+        Meeting meeting = new Meeting(
+                555,
+                "Выкатка 3й версии приложения",
+                "Приложение НетоБанка",
+                "Во вторник после обеда"
+        );
+
+        int expectedId = 555;
+        String expectedTopic = "Выкатка 3й версии приложения";
+        String expectedProject = "Приложение НетоБанка";
+        String expectedStart = "Во вторник после обеда";
+
+        Assertions.assertEquals(expectedId, meeting.getId());
+        Assertions.assertEquals(expectedTopic, meeting.getTopic());
+        Assertions.assertEquals(expectedProject, meeting.getProject());
+        Assertions.assertEquals(expectedStart, meeting.getStart());
     }
 }
